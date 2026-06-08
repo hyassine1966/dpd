@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DPD Recruitment Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #fff;
+            color: #1a1a1a;
+        }
+
+        input, select, textarea, button {
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        button {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        a {
+            color: #C41E3A;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header */
+        .header {
+            background-color: #1a1a1a;
+            padding: 1.5rem 2rem;
+            border-bottom: 4px solid #C41E3A;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #C41E3A;
+            letter-spacing: 2px;
+        }
+
+        .header-left p {
+            font-size: 12px;
+            color: #999;
+            margin-top: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            color: #C41E3A;
+            padding: 10px 20px;
+            border: 2px solid #C41E3A;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        /* Login */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-header {
+            background-color: #1a1a1a;
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 4px solid #C41E3A;
+        }
+
+        .login-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #C41E3A;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            font-size: 13px;
+            color: #999;
+            letter-spacing: 1px;
+        }
+
+        .login-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-form {
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.75rem;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 12px;
+            border: 1px solid #4a4a4a;
+            background-color: #fff;
+            color: #1a1a1a;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #C41E3A;
+        }
+
+        .login-form button {
+            width: 100%;
+            background-color: #C41E3A;
+            color: #fff;
+            padding: 16px;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 1px;
+            border: none;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+        }
+
+        .test-accounts {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: #f5f5f5;
+            border-left: 3px solid #C41E3A;
+        }
+
+        .test-accounts strong {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        .test-accounts div {
+            font-size: 12px;
+            color: #4a4a4a;
+            line-height: 1.6;
+        }
+
+        /* Tabs */
+        .tabs {
+            background-color: #f5f5f5;
+            padding: 0 2rem;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 0;
+        }
+
+        .tab-button {
+            background-color: transparent;
+            color: #1a1a1a;
+            border: none;
+            padding: 16px 24px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button.active {
+            background-color: #1a1a1a;
+            color: #C41E3A;
+            border-bottom-color: #C41E3A;
+        }
+
+        /* Main content */
+        .main-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: #C41E3A;
+            color: #fff;
+            padding: 16px 24px;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 1px;
+            border: none;
+            text-transform: uppercase;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #1a1a1a;
+            padding: 14px;
+            border: 2px solid #1a1a1a;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            flex: 1;
+        }
+
+        .btn-submit {
+            background-color: #C41E3A;
+            color: #fff;
+            padding: 14px;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 1px;
+            border: none;
+            text-transform: uppercase;
+            flex: 1;
+        }
+
+        .btn-back {
+            background-color: transparent;
+            color: #C41E3A;
+            padding: 10px 20px;
+            border: 2px solid #C41E3A;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 12px;
+            margin-bottom: 2rem;
+        }
+
+        /* Forms */
+        .form-section {
+            background-color: #f5f5f5;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #C41E3A;
+        }
+
+        .form-section h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-grid.full {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #4a4a4a;
+            background-color: #fff;
+            color: #1a1a1a;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 2px solid #ddd;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            border-color: #C41E3A;
+        }
+
+        .card h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content {
+            font-size: 12px;
+            color: #4a4a4a;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .badge-new {
+            background-color: #E5F5E5;
+            color: #1a7d1a;
+        }
+
+        .badge-replacement {
+            background-color: #FFE5E5;
+            color: #C41E3A;
+        }
+
+        .card-click {
+            color: #C41E3A;
+            font-weight: 700;
+            font-size: 12px;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            border-top: 1px solid #ddd;
+            padding-top: 1rem;
+        }
+
+        .card-actions button {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #C41E3A;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Detail View */
+        .detail-header {
+            background-color: #f5f5f5;
+            padding: 2rem;
+            border-left: 4px solid #C41E3A;
+            margin-bottom: 2rem;
+        }
+
+        .detail-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .detail-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-info-item {
+            font-size: 13px;
+        }
+
+        .detail-info-label {
+            font-weight: 700;
+            color: #4a4a4a;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-info-value {
+            color: #1a1a1a;
+        }
+
+        /* Candidates in vacancy */
+        .candidates-section h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #ddd;
+        }
+
+        .candidate-card {
+            background-color: #f5f5f5;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #C41E3A;
+        }
+
+        .candidate-card h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .candidate-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 12px;
+        }
+
+        .candidate-details-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .candidate-details-label {
+            font-weight: 700;
+            color: #4a4a4a;
+            margin-bottom: 0.25rem;
+        }
+
+        .candidate-details-value {
+            color: #1a1a1a;
+        }
+
+        .candidate-comments {
+            background-color: #fff;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+
+        .candidate-comments-label {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #4a4a4a;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-right: 0.5rem;
+        }
+
+        .status-new {
+            background-color: #E5F5FF;
+            color: #0066CC;
+        }
+
+        .status-screening {
+            background-color: #FFF5E5;
+            color: #CC6600;
+        }
+
+        .status-interview {
+            background-color: #E5F5E5;
+            color: #006600;
+        }
+
+        .status-offer {
+            background-color: #FFE5E5;
+            color: #C41E3A;
+        }
+
+        .status-aanvaard {
+            background-color: #D4EDDA;
+            color: #155724;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            font-size: 13px;
+        }
+
+        table thead {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        table th {
+            text-align: left;
+            padding: 16px 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-size: 11px;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #4a4a4a;
+            font-style: italic;
+        }
+
+        .table-actions button {
+            background: none;
+            border: none;
+            color: #C41E3A;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script>
+        // Storage wrapper
+        const Storage = {
+            get: (key) => {
+                try {
+                    const item = localStorage.getItem(key);
+                    return item ? JSON.parse(item) : null;
+                } catch {
+                    return null;
+                }
+            },
+            set: (key, value) => {
+                try {
+                    localStorage.setItem(key, JSON.stringify(value));
+                } catch {
+                    console.error('Storage error');
+                }
+            }
+        };
+
+        // App State
+        const state = {
+            currentUser: null,
+            activeTab: 'vacancies',
+            showVacancyForm: false,
+            showCandidateForm: false,
+            editingVacancyId: null,
+            editingCandidateId: null,
+            selectedVacancyId: null,
+            vacancies: Storage.get('recruitment_vacancies') || [],
+            candidates: Storage.get('recruitment_candidates') || [],
+            loginEmail: '',
+            loginPassword: '',
+            vacancyForm: {
+                name: '',
+                position: '',
+                hiringManager: '',
+                publicationDate: '',
+                replacement: 'no',
+                recruiterName: ''
+            },
+            candidateForm: {
+                candidateName: '',
+                email: '',
+                phone: '',
+                appliedPosition: '',
+                status: 'new',
+                source: 'linkedin',
+                linkedinProfile: '',
+                salaris: '',
+                locatie: '',
+                comments: ''
+            }
+        };
+
+        const users = [
+            { id: 1, name: 'Hamza Yassine', email: 'hamza@company.nl', password: 'pass123' },
+            { id: 2, name: 'Jean-Celestin Phuati', email: 'jean@company.nl', password: 'pass123' },
+            { id: 3, name: 'Caroline Rombaut', email: 'caroline@company.nl', password: 'pass123' },
+            { id: 4, name: 'Recruiter 1', email: 'recruiter1@company.nl', password: 'pass123' },
+            { id: 5, name: 'Recruiter 2', email: 'recruiter2@company.nl', password: 'pass123' },
+            { id: 6, name: 'Hiring Manager', email: 'manager@company.nl', password: 'pass123' }
+        ];
+
+        // Utils
+        const daysOpen = (dateStr) => {
+            if (!dateStr) return '-';
+            try {
+                const pubDate = new Date(dateStr);
+                const today = new Date();
+                const days = Math.floor((today - pubDate) / (1000 * 60 * 60 * 24));
+                return Math.max(0, days);
+            } catch {
+                return '-';
+            }
+        };
+
+        const formatDate = (dateStr) => {
+            if (!dateStr) return '-';
+            try {
+                const d = new Date(dateStr);
+                return d.toLocaleDateString('nl-NL', { day: '2-digit', month: 'short' });
+            } catch {
+                return dateStr;
+            }
+        };
+
+        const getCandidatesForVacancy = (vacancyName) => {
+            return state.candidates.filter(c => c.appliedPosition === vacancyName);
+        };
+
+        // Auth
+        const handleLogin = (e) => {
+            e.preventDefault();
+            const user = users.find(u => u.email === state.loginEmail && u.password === state.loginPassword);
+            if (user) {
+                state.currentUser = user;
+                state.loginEmail = '';
+                state.loginPassword = '';
+                render();
+            } else {
+                alert('E-mail of wachtwoord incorrect');
+            }
+        };
+
+        const handleLogout = () => {
+            state.currentUser = null;
+            state.loginEmail = '';
+            state.loginPassword = '';
+            state.showVacancyForm = false;
+            state.showCandidateForm = false;
+            state.selectedVacancyId = null;
+            render();
+        };
+
+        // Vacancies
+        const handleAddVacancy = (e) => {
+            e.preventDefault();
+            const newVacancy = {
+                id: state.editingVacancyId || Date.now(),
+                ...state.vacancyForm,
+                createdBy: state.currentUser.name,
+                createdDate: new Date().toISOString()
+            };
+
+            if (state.editingVacancyId) {
+                state.vacancies = state.vacancies.map(v => v.id === state.editingVacancyId ? newVacancy : v);
+                state.editingVacancyId = null;
+            } else {
+                state.vacancies.push(newVacancy);
+            }
+
+            Storage.set('recruitment_vacancies', state.vacancies);
+            state.showVacancyForm = false;
+            state.vacancyForm = {
+                name: '',
+                position: '',
+                hiringManager: '',
+                publicationDate: '',
+                replacement: 'no',
+                recruiterName: ''
+            };
+            render();
+        };
+
+        const handleDeleteVacancy = (id) => {
+            if (confirm('Weet je zeker dat je deze vacature wilt verwijderen?')) {
+                state.vacancies = state.vacancies.filter(v => v.id !== id);
+                Storage.set('recruitment_vacancies', state.vacancies);
+                render();
+            }
+        };
+
+        const handleEditVacancy = (vacancy) => {
+            state.vacancyForm = { ...vacancy };
+            state.editingVacancyId = vacancy.id;
+            state.showVacancyForm = true;
+            state.selectedVacancyId = null;
+            render();
+        };
+
+        const selectVacancy = (vacancy) => {
+            state.selectedVacancyId = vacancy.id;
+            state.showVacancyForm = false;
+            state.showCandidateForm = false;
+            render();
+        };
+
+        // Candidates
+        const handleAddCandidate = (e) => {
+            e.preventDefault();
+            const newCandidate = {
+                id: state.editingCandidateId || Date.now(),
+                ...state.candidateForm,
+                createdBy: state.currentUser.name,
+                createdDate: new Date().toISOString()
+            };
+
+            if (state.editingCandidateId) {
+                state.candidates = state.candidates.map(c => c.id === state.editingCandidateId ? newCandidate : c);
+                state.editingCandidateId = null;
+            } else {
+                state.candidates.push(newCandidate);
+            }
+
+            Storage.set('recruitment_candidates', state.candidates);
+            state.showCandidateForm = false;
+            state.candidateForm = {
+                candidateName: '',
+                email: '',
+                phone: '',
+                appliedPosition: '',
+                status: 'new',
+                source: 'linkedin',
+                linkedinProfile: '',
+                salaris: '',
+                locatie: '',
+                comments: ''
+            };
+            render();
+        };
+
+        const handleDeleteCandidate = (id) => {
+            if (confirm('Weet je zeker dat je deze kandidaat wilt verwijderen?')) {
+                state.candidates = state.candidates.filter(c => c.id !== id);
+                Storage.set('recruitment_candidates', state.candidates);
+                render();
+            }
+        };
+
+        const handleEditCandidate = (candidate) => {
+            state.candidateForm = { ...candidate };
+            state.editingCandidateId = candidate.id;
+            state.showCandidateForm = true;
+            render();
+        };
+
+        // Render
+        const render = () => {
+            const app = document.getElementById('app');
+
+            if (!state.currentUser) {
+                app.innerHTML = `
+                    <div class="login-container">
+                        <div class="login-header">
+                            <h1>RECRUITMENT PORTAL</h1>
+                            <p>POWERED BY DPD</p>
+                        </div>
+                        <div class="login-content">
+                            <div class="login-form">
+                                <form onsubmit="handleLogin(event)">
+                                    <div class="form-group">
+                                        <label>E-MAIL</label>
+                                        <input type="email" id="email" placeholder="hamza@company.nl" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>WACHTWOORD</label>
+                                        <input type="password" id="password" placeholder="pass123" required>
+                                    </div>
+                                    <button type="submit" class="btn-primary">INLOGGEN</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.querySelectorAll('#email, #password').forEach(el => {
+                    el.addEventListener('change', (e) => {
+                        if (e.target.id === 'email') state.loginEmail = e.target.value;
+                        if (e.target.id === 'password') state.loginPassword = e.target.value;
+                    });
+                });
+            } else {
+                app.innerHTML = `
+                    <div class="header">
+                        <div class="header-left">
+                            <h1>RECRUITMENT PORTAL</h1>
+                            <p>WELKOM, ${state.currentUser.name.toUpperCase()}</p>
+                        </div>
+                        <button class="logout-btn" onclick="handleLogout()">UITLOGGEN</button>
+                    </div>
+
+                    <div class="tabs">
+                        <button class="tab-button ${state.activeTab === 'vacancies' ? 'active' : ''}" onclick="setTab('vacancies')">
+                            📋 VACATURES (${state.vacancies.length})
+                        </button>
+                        <button class="tab-button ${state.activeTab === 'candidates' ? 'active' : ''}" onclick="setTab('candidates')">
+                            👤 KANDIDATEN (${state.candidates.length})
+                        </button>
+                    </div>
+
+                    <div class="main-content">
+                        ${state.activeTab === 'vacancies' ? renderVacancies() : renderCandidates()}
+                    </div>
+                `;
+            }
+        };
+
+        const setTab = (tab) => {
+            state.activeTab = tab;
+            state.showVacancyForm = false;
+            state.showCandidateForm = false;
+            state.selectedVacancyId = null;
+            render();
+        };
+
+        const renderVacancies = () => {
+            let html = '';
+
+            // Vacancy Detail View
+            if (state.selectedVacancyId) {
+                const vacancy = state.vacancies.find(v => v.id === state.selectedVacancyId);
+                const vacancyCandidates = getCandidatesForVacancy(vacancy.name);
+                
+                html += `
+                    <button class="btn-back" onclick="state.selectedVacancyId = null; render()">← TERUG NAAR VACATURES</button>
+                    
+                    <div class="detail-header">
+                        <h2>${vacancy.name}</h2>
+                        <div class="detail-info">
+                            <div class="detail-info-item">
+                                <div class="detail-info-label">AFDELING</div>
+                                <div class="detail-info-value">${vacancy.position}</div>
+                            </div>
+                            <div class="detail-info-item">
+                                <div class="detail-info-label">HIRING MANAGER</div>
+                                <div class="detail-info-value">${vacancy.hiringManager}</div>
+                            </div>
+                            <div class="detail-info-item">
+                                <div class="detail-info-label">RECRUITER</div>
+                                <div class="detail-info-value">${vacancy.recruiterName}</div>
+                            </div>
+                            <div class="detail-info-item">
+                                <div class="detail-info-label">PUBLICATIE</div>
+                                <div class="detail-info-value">${formatDate(vacancy.publicationDate)}</div>
+                            </div>
+                            <div class="detail-info-item">
+                                <div class="detail-info-label">DAGEN OPEN</div>
+                                <div class="detail-info-value">${daysOpen(vacancy.publicationDate)}</div>
+                            </div>
+                            <div class="detail-info-item">
+                                <div class="detail-info-label">TYPE</div>
+                                <div class="detail-info-value">${vacancy.replacement === 'yes' ? 'VERVANGING' : 'NIEUW'}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="candidates-section">
+                        <h3>KANDIDATEN IN DEZE VACATURE (${vacancyCandidates.length})</h3>
+                        
+                        ${vacancyCandidates.length === 0 ? 
+                            `<div class="empty-state">Nog geen kandidaten voor deze vacature</div>` :
+                            vacancyCandidates.map(candidate => `
+                                <div class="candidate-card">
+                                    <h4>${candidate.candidateName}</h4>
+                                    <div>
+                                        <span class="status-badge status-${candidate.status}">${candidate.status.toUpperCase()}</span>
+                                    </div>
+                                    <div class="candidate-details">
+                                        <div class="candidate-details-item">
+                                            <div class="candidate-details-label">EMAIL</div>
+                                            <div class="candidate-details-value"><a href="mailto:${candidate.email}">${candidate.email}</a></div>
+                                        </div>
+                                        <div class="candidate-details-item">
+                                            <div class="candidate-details-label">TELEFOON</div>
+                                            <div class="candidate-details-value">${candidate.phone || '-'}</div>
+                                        </div>
+                                        <div class="candidate-details-item">
+                                            <div class="candidate-details-label">LOCATIE</div>
+                                            <div class="candidate-details-value">${candidate.locatie || '-'}</div>
+                                        </div>
+                                        <div class="candidate-details-item">
+                                            <div class="candidate-details-label">SALARIS</div>
+                                            <div class="candidate-details-value">${candidate.salaris || '-'}</div>
+                                        </div>
+                                        <div class="candidate-details-item">
+                                            <div class="candidate-details-label">BRON</div>
+                                            <div class="candidate-details-value">${candidate.source}</div>
+                                        </div>
+                                    </div>
+                                    ${candidate.comments ? `
+                                        <div class="candidate-comments">
+                                            <div class="candidate-comments-label">OPMERKINGEN:</div>
+                                            <div>${candidate.comments}</div>
+                                        </div>
+                                    ` : ''}
+                                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                                        <button onclick="handleEditCandidate(${JSON.stringify(candidate).replace(/"/g, '&quot;')})" style="background: none; border: none; color: #C41E3A; cursor: pointer; font-weight: 700;">✎ BEWERKEN</button>
+                                        <button onclick="handleDeleteCandidate(${candidate.id})" style="background: none; border: none; color: #C41E3A; cursor: pointer; font-weight: 700;">✕ VERWIJDEREN</button>
+                                    </div>
+                                </div>
+                            `).join('')
+                        }
+                    </div>
+                `;
+            } else {
+                // Vacancies List
+                if (!state.showVacancyForm) {
+                    html += '<button class="btn-primary" onclick="state.showVacancyForm = true; render()">+ NIEUWE VACATURE</button>';
+                }
+
+                if (state.showVacancyForm) {
+                    html += `
+                        <div class="form-section">
+                            <h2>${state.editingVacancyId ? 'VACATURE BEWERKEN' : 'NIEUWE VACATURE TOEVOEGEN'}</h2>
+                            <form onsubmit="handleAddVacancy(event)">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>FUNCTIETITEL</label>
+                                        <input type="text" value="${state.vacancyForm.name}" placeholder="Bv. Senior Developer" required onchange="state.vacancyForm.name = this.value">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>FUNCTIE AFDELING</label>
+                                        <input type="text" value="${state.vacancyForm.position}" placeholder="IT / HR / Finance" required onchange="state.vacancyForm.position = this.value">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>HIRING MANAGER</label>
+                                        <input type="text" value="${state.vacancyForm.hiringManager}" placeholder="Naam hiring manager" required onchange="state.vacancyForm.hiringManager = this.value">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>PUBLICATIE DATUM</label>
+                                        <input type="date" value="${state.vacancyForm.publicationDate}" required onchange="state.vacancyForm.publicationDate = this.value">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>TYPE POSITIE</label>
+                                        <select onchange="state.vacancyForm.replacement = this.value">
+                                            <option value="no" ${state.vacancyForm.replacement === 'no' ? 'selected' : ''}>Nieuwe positie</option>
+                                            <option value="yes" ${state.vacancyForm.replacement === 'yes' ? 'selected' : ''}>Vervangingsposie</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>RECRUITER NAAM</label>
+                                        <input type="text" value="${state.vacancyForm.recruiterName}" placeholder="Jouw naam" required onchange="state.vacancyForm.recruiterName = this.value">
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn-submit">${state.editingVacancyId ? '✓ BIJWERKEN' : '+ TOEVOEGEN'}</button>
+                                    <button type="button" class="btn-secondary" onclick="state.showVacancyForm = false; state.editingVacancyId = null; render()">✕ ANNULEREN</button>
+                                </div>
+                            </form>
+                        </div>
+                    `;
+                }
+
+                if (state.vacancies.length === 0) {
+                    html += '<div class="empty-state">Geen vacatures. Voeg er een toe om te beginnen!</div>';
+                } else {
+                    html += '<div class="cards-grid">';
+                    state.vacancies.forEach(v => {
+                        const candCount = getCandidatesForVacancy(v.name).length;
+                        html += `
+                            <div class="card">
+                                <h3>${v.name}</h3>
+                                <div class="card-content">
+                                    <div>📍 ${v.position}</div>
+                                    <div>👤 ${v.hiringManager}</div>
+                                    <div>📅 ${formatDate(v.publicationDate)}</div>
+                                    <div>⏱️ ${daysOpen(v.publicationDate)} dagen open</div>
+                                </div>
+                                <div class="card-badge ${v.replacement === 'yes' ? 'badge-replacement' : 'badge-new'}">
+                                    ${v.replacement === 'yes' ? 'VERVANGING' : 'NIEUW'}
+                                </div>
+                                <div style="font-size: 12px; color: #C41E3A; font-weight: 700; margin: 1rem 0; padding: 1rem 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
+                                    👥 ${candCount} kandidaat${candCount !== 1 ? 'en' : ''}
+                                </div>
+                                <div class="card-click" onclick="selectVacancy(${JSON.stringify(v).replace(/"/g, '&quot;')})">
+                                    ➜ KLIK OM KANDIDATEN TE BEKIJKEN
+                                </div>
+                                <div class="card-actions">
+                                    <button onclick="handleEditVacancy(${JSON.stringify(v).replace(/"/g, '&quot;')})">✎ BEWERKEN</button>
+                                    <button onclick="handleDeleteVacancy(${v.id})">✕ VERWIJDEREN</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                }
+            }
+
+            return html;
+        };
+
+        const renderCandidates = () => {
+            let html = '';
+
+            if (!state.showCandidateForm) {
+                html += '<button class="btn-primary" onclick="state.showCandidateForm = true; render()">+ KANDIDAAT TOEVOEGEN</button>';
+            }
+
+            if (state.showCandidateForm) {
+                html += `
+                    <div class="form-section">
+                        <h2>${state.editingCandidateId ? 'KANDIDAAT BEWERKEN' : 'NIEUWE KANDIDAAT TOEVOEGEN'}</h2>
+                        <form onsubmit="handleAddCandidate(event)">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>KANDIDAAT NAAM *</label>
+                                    <input type="text" value="${state.candidateForm.candidateName}" placeholder="Voornaam Achternaam" required onchange="state.candidateForm.candidateName = this.value">
+                                </div>
+                                <div class="form-group">
+                                    <label>E-MAIL *</label>
+                                    <input type="email" value="${state.candidateForm.email}" placeholder="kandidaat@email.com" required onchange="state.candidateForm.email = this.value">
+                                </div>
+                                <div class="form-group">
+                                    <label>TELEFOON</label>
+                                    <input type="tel" value="${state.candidateForm.phone}" placeholder="+31 6 12345678" onchange="state.candidateForm.phone = this.value">
+                                </div>
+                                <div class="form-group">
+                                    <label>GESOLLICITEERDE FUNCTIE *</label>
+                                    <input type="text" value="${state.candidateForm.appliedPosition}" placeholder="Bv. Senior Developer" required onchange="state.candidateForm.appliedPosition = this.value">
+                                </div>
+                                <div class="form-group">
+                                    <label>LOCATIE</label>
+                                    <input type="text" value="${state.candidateForm.locatie}" placeholder="Amsterdam / Remote" onchange="state.candidateForm.locatie = this.value">
+                                </div>
+                                <div class="form-group">
+                                    <label>SALARIS</label>
+                                    <input type="text" value="${state.candidateForm.salaris}" placeholder="€50.000 - €60.000" onchange="state.candidateForm.salaris = this.value">
+                                </div>
+                                <div class="form-group">
+                                    <label>STATUS</label>
+                                    <select onchange="state.candidateForm.status = this.value">
+                                        <option value="new" ${state.candidateForm.status === 'new' ? 'selected' : ''}>Nieuw</option>
+                                        <option value="screening" ${state.candidateForm.status === 'screening' ? 'selected' : ''}>Screening</option>
+                                        <option value="interview" ${state.candidateForm.status === 'interview' ? 'selected' : ''}>Interview</option>
+                                        <option value="offer" ${state.candidateForm.status === 'offer' ? 'selected' : ''}>Offerte</option>
+                                        <option value="aanvaard" ${state.candidateForm.status === 'aanvaard' ? 'selected' : ''}>Aanvaard</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>BRON</label>
+                                    <select onchange="state.candidateForm.source = this.value">
+                                        <option value="linkedin" ${state.candidateForm.source === 'linkedin' ? 'selected' : ''}>LinkedIn</option>
+                                        <option value="indeed" ${state.candidateForm.source === 'indeed' ? 'selected' : ''}>Indeed</option>
+                                        <option value="referral" ${state.candidateForm.source === 'referral' ? 'selected' : ''}>Referral</option>
+                                        <option value="interne-kandidaat" ${state.candidateForm.source === 'interne-kandidaat' ? 'selected' : ''}>Interne kandidaat</option>
+                                        <option value="website" ${state.candidateForm.source === 'website' ? 'selected' : ''}>Website</option>
+                                        <option value="other" ${state.candidateForm.source === 'other' ? 'selected' : ''}>Overig</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>LINKEDIN PROFIEL URL</label>
+                                    <input type="url" value="${state.candidateForm.linkedinProfile}" placeholder="https://linkedin.com/in/..." onchange="state.candidateForm.linkedinProfile = this.value">
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label>OPMERKINGEN</label>
+                                    <textarea placeholder="Voeg opmerkingen toe..." onchange="state.candidateForm.comments = this.value">${state.candidateForm.comments}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn-submit">${state.editingCandidateId ? '✓ BIJWERKEN' : '+ TOEVOEGEN'}</button>
+                                <button type="button" class="btn-secondary" onclick="state.showCandidateForm = false; state.editingCandidateId = null; render()">✕ ANNULEREN</button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+            }
+
+            if (state.candidates.length === 0) {
+                html += '<div class="empty-state">Geen kandidaten. Voeg er een toe!</div>';
+            } else {
+                html += `
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>NAAM</th>
+                                    <th>E-MAIL</th>
+                                    <th>FUNCTIE</th>
+                                    <th>LOCATIE</th>
+                                    <th>SALARIS</th>
+                                    <th style="text-align: center;">STATUS</th>
+                                    <th>BRON</th>
+                                    <th style="text-align: center;">ACTIES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${state.candidates.map((c, idx) => `
+                                    <tr>
+                                        <td><strong>${c.candidateName}</strong></td>
+                                        <td><a href="mailto:${c.email}">${c.email}</a></td>
+                                        <td>${c.appliedPosition}</td>
+                                        <td>${c.locatie || '-'}</td>
+                                        <td>${c.salaris || '-'}</td>
+                                        <td style="text-align: center;">
+                                            <span class="status-badge status-${c.status}">${c.status.toUpperCase()}</span>
+                                        </td>
+                                        <td>${c.source === 'linkedin' ? '💼' : '📌'} ${c.source === 'interne-kandidaat' ? 'Intern' : c.source}</td>
+                                        <td style="text-align: center; display: flex; gap: 8px; justify-content: center;">
+                                            <button onclick="handleEditCandidate(${JSON.stringify(c).replace(/"/g, '&quot;')})">✎</button>
+                                            <button onclick="handleDeleteCandidate(${c.id})">✕</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            return html;
+        };
+
+        // Initial render
+        render();
+    </script>
+</body>
+</html>
